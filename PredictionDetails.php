@@ -13,9 +13,9 @@
 
 <div style="overflow:auto">
   <div class="menu">
+
   
-      
-    <a href="HomeLogin.php">Home</a>
+   <a href="HomeLogin.php">Home</a>
 	<a href="ViewDetail.php">Profile</a>
 	<a href="Prediction.php">Prediction</a>
 	<a href="PredictionDetails.php">Prediction Log</a> 
@@ -37,17 +37,25 @@
   </div>
 
   <div class="main">
-   <h3> <?php session_start();
+  <h3> <?php session_start();
   echo "welcome ";
   echo $_SESSION['Name'];
-  echo"</br>";
-  echo $_SESSION['Email'];?> </h3>
-  <h2>view details</h2>
-	<table id="PredictLog">
+  
+?> </h3>
+
+    <h2>Predicted Details</h2>
+	
+<table id="PredictLog">
   <tr>
-   <th>email</th>
-    <th>logintime</th>
-    <th> logouttime </th
+    <th>DateTime</th>
+    <th>PlantLevel</th>
+    <th> Place </th>
+	<th> Temperature </th>
+	<th> Rainfall </th>
+	<th> Humility </th>
+	<th> USD </th>
+	<th> FuelRate </th>
+	<th> Price </th>
   </tr>
 	<?php
 
@@ -59,35 +67,50 @@ or die("<b> Connection Fails");
 
 	 $Email=$_SESSION['Email'];
 	 
-	 $sql ="SELECT * FROM userlog WHERE Email= '".$Email."' ORDER BY Id DESC";
+	 $sql ="SELECT * FROM log WHERE Email= '".$Email."' ORDER BY Id DESC";
 	
       $result = mysqli_query($connection, $sql);
 	while($row = mysqli_fetch_assoc($result)){
-			$email=$row['email'];
-			$logintime=$row['logintime'];
-			$logouttime=$row['logouttime'];
-			
+			$Timestamp=$row['Timestamp'];
+			$Plant_level=$row['Plant_level'];
+			$Place=$row['Place'];
+			$Temperature=$row['Temperature'];
+			$Rainfall=$row['Rainfall'];
+			$Humility=$row['Humility'];
+			$USD=$row['USD'];
+			$Fuel_Rate=$row['Fuel_Rate'];
+			$Price=$row['Price'];
+			if ($Price=="0")
+			{
+				$Price="Pending";
+			}
 			
 		echo "<tr>";
-		echo "<th>". $email."</th>";
-		echo "<th>". $logintime."</th>";
-		echo "<th>". $logouttime."</th>";
+		echo "<th>". $Timestamp."</th>";
+		echo "<th>". $Plant_level."</th>";
+		echo "<th>". $Place."</th>";
+		echo "<th>". $Temperature."</th>";
+		echo "<th>". $Rainfall."</th>";
+		echo "<th>". $Humility."</th>";
+		echo "<th>". $USD."</th>";
+		echo "<th>". $Fuel_Rate."</th>";
+		echo "<th>". $Price."</th>";
 		
 		echo "</tr>";
 		
 	}
 	?>
 	</table>
-  </form>
-
   </div>
 
+
   <div class="right">
+	
     <h2>About</h2>
     <p>This platform is a responsive website that is used to view the tea prices from the factors </p>
 	<h2>Tea price prediction</h2>
 	<p>The technologies and languages used to write the programs are HTML5, CSS3, JavaScript, PHP and MySQL. The system was developed using WAMPP server and PHPMyAdmin. The factors are trained by MATLAB code </p>
-  </div>
+ </div>
 </div>
 
 <div class="footer">© 2018 copyright reserved. Develop by Subashini</div>

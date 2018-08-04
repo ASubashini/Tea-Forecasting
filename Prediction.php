@@ -14,49 +14,80 @@
 <div style="overflow:auto">
   <div class="menu">
 
-    <a href="">Home</a>
-	<a href="ViewDetail.php">View Profile Details</a>
-	<a href="EditDetails.php">Edit Profile Details</a>
-	<a href="">View System assign Details</a>
-    <a href="">Logout</a>
+    <a href="HomeLogin.php">Home</a>
+	<a href="ViewDetail.php">Profile</a>
+	<a href="Prediction.php">Prediction</a>
+	<a href="PredictionDetails.php">Prediction Log</a> 
+	<a href="ViewLoginDetails.php">Login Log</a> 
+	<a href="logout.php">Logout</a>
+	<ul>
+	<a class ="yy" href="">Price History</a>
+	<li>
+	<div class="xx">
+	<a href="UvaHigh.php">Uva High</a>
+	<a href="UvaMedium.php">Uva Medium</a>
+	<a href="UvaLow.php">Uva Low</a>
+	<a href="WesternHigh.php">Western High</a>
+	<a href="WesternMedium.php">Western Medium</a>
+	<a href="WesternLow.php">Western Low</a>
+	</div>
+	</li>
+	</ul>
+
   </div>
 
   <div class="main">
+    <h3> <?php session_start();
+  echo "welcome ";
+  echo $_SESSION['Name'];
+?> </h3>
   <h2>Predict the Tea Price</h2>
 	<div class="container">
-    <form action="login_process.php" method="post">
-	<div class="errorMessage"><?php if (isset($_GET["val"])){echo "*Login failed. Check your credentials and try again"; }?> </div>
+    <form action="PredictionProcess.php" method="post">
+	<div class="errorMessage"><?php 
+	if (isset($_GET["Pre"]))
+	{
+		if($_GET["Pre"]=="errordata")
+		{
+			echo "Error"; 
+		}
+		else if ($_GET["Pre"]=="success")
+		{
+			echo " Success ";
+		}
+
+			
+	}?> </div>
     <div class="row">
       <div class="col-25">
         <label for="plantlevel">Plant Level</label>
       </div>
       <div class="col-75">
-        <input list="plantlevel"  placeholder="Enter the Plant Level" required>
-		<datalist id="plantlevel">
-  <option value="High">
-  <option value="Medium">
-  <option value="Low">
-
-</datalist>
+       <select  id="plantlevel" name="plantlevel">
+  <option value="High">High</option>
+  <option value="Medium">Medium</option>
+  <option value="Low">Low</option>
+</select>
       </div>
     </div>
 	<div class="row">
       <div class="col-25">
         <label for="place">Place</label>
       </div>
-       <input list="place"  placeholder="Enter the Place" required>
-		<datalist id="place">
-  <option value="Uva">
-  <option value="Western">
-
-</datalist>
+	  <div class="col-75">
+       <select  id="place" name="place">
+  <option value="Uva">Uva</option>
+  <option value="Western">Western</option>
+</select>
       </div>
+	  </div>
+
 	  <div class="row">
       <div class="col-25">
         <label for="temp">Temperature (°C)</label>
       </div>
       <div class="col-75">
-        <input type="text" id="temp" name="temp" placeholder="Enter the Temperature" pattern="[0-9]"required>
+        <input type="number" id="temp" name="temp" placeholder="Enter the Temperature" required>
       </div>
     </div>
 	  <div class="row">
@@ -64,7 +95,7 @@
         <label for="rainfall">Rainfall (mm)</label>
       </div>
       <div class="col-75">
-        <input type="text" id="rainfall" name="rainfall" placeholder="Enter the your Rainfall" pattern="[0-9]" required>
+        <input type="number" id="rainfall" name="rainfall" placeholder="Enter the your Rainfall" required>
       </div>
     </div>
 	  <div class="row">
@@ -72,7 +103,7 @@
         <label for="humidity">Humidity</label>
       </div>
       <div class="col-75">
-        <input type="text" id="humidity" name="humidity" placeholder="Enter the Humidity" pattern="[0-9]" required>
+        <input type="number" id="humidity" name="humidity" placeholder="Enter the Humidity"  required>
       </div>
     </div>
   	  <div class="row">
@@ -80,7 +111,7 @@
         <label for="usd">USD Rate (Rs)</label>
       </div>
       <div class="col-75">
-        <input type="text" id="usd" name="usd" placeholder="Enter the USD rate in LKR " pattern="[0-9]" required>
+        <input type="number" id="usd" name="usd" placeholder="Enter the USD rate in LKR "  required>
       </div>
     </div>
 	 <div class="row">
@@ -88,17 +119,10 @@
         <label for="fuel">Fuel</label>
       </div>
       <div class="col-75">
-        <input type="text" id="fuel" name="fuel" placeholder="Enter the Fuel rate" pattern="[0-9]"} required>
+        <input type="number" id="fuel" name="fuel" placeholder="Enter the Fuel rate" required>
       </div>
     </div>
-	 <div class="row">
-      <div class="col-25">
-        <label for="price">Tea Price</label>
-      </div>
-      <div class="col-75">
-        <input type="text" id="price" name="price"  readonly>
-      </div>
-    </div>
+
     <div class="row">
 	<div class="col-75">
 	    <input type="reset" value="Clear" id="clear" name="clear">

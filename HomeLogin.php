@@ -14,32 +14,33 @@
 <div style="overflow:auto">
   <div class="menu">
 
+  
     <a href="HomeLogin.php">Home</a>
-	<a href="ViewDetail.php">View Profile Details</a>
-	<a href="EditDetails.php">Edit Profile Details</a> 
-	<a href="ViewLoginDetails.php">View System assign Details</a>
+	<a href="ViewDetail.php">Profile</a>
 	<a href="Prediction.php">Prediction</a>
-	<a href="">Logout</a>
+	<a href="PredictionDetails.php">Prediction Log</a> 
+	<a href="ViewLoginDetails.php">Login Log</a> 
+	<a href="logout.php">Logout</a>
 	<ul>
 	<a class ="yy" href="">Price History</a>
 	<li>
 	<div class="xx">
 	<a href="UvaHigh.php">Uva High</a>
-	<a href="PriceHistoryUvaMedium.php">Uva Medium</a>
-	<a href="PriceHistoryUvaHigh.php">Uva Low</a>
-	<a href="PriceHistoryUvaMedium.php">Western High</a>
-	<a href="PriceHistoryUvaHigh.php">Western Medium</a>
-	<a href="PriceHistoryUvaMedium.php">Western Low</a>
+	<a href="UvaMedium.php">Uva Medium</a>
+	<a href="UvaLow.php">Uva Low</a>
+	<a href="WesternHigh.php">Western High</a>
+	<a href="WesternMedium.php">Western Medium</a>
+	<a href="WesternLow.php">Western Low</a>
 	</div>
 	</li>
 	</ul>
-		
   </div>
 
   <div class="main">
   <h3> <?php session_start();
   echo "welcome ";
-	echo $_SESSION['Name'];?> </h3>
+  echo $_SESSION['Name'];
+?> </h3>
     <h2>System Overview</h2>
 	
 	 <div class="container">

@@ -36,7 +36,7 @@
 		}
 		else if($_GET["Login"]=="loginerror")
 		{
-			echo" Invalid Username & Password";
+			echo" Login Failed";
 		}
 			
 	}

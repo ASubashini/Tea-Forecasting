@@ -15,10 +15,11 @@
   <div class="menu">
 
     <a href="HomeLogin.php">Home</a>
-	<a href="ViewDetail.php">View Profile Details</a>
-	<a href="EditDetails.php">Edit Profile Details</a> 
-	<a href="ViewLoginDetails.php">View System assign Details</a>
+	<a href="ViewDetail.php">Profile</a>
 	<a href="Prediction.php">Prediction</a>
+	<a href="PredictionDetails.php">Prediction Log</a> 
+	<a href="ViewLoginDetails.php">Login Log</a> 
+	<a href="logout.php">Logout</a>
 	<ul>
 	<a class ="yy" href="">Price History</a>
 	<li>
@@ -29,14 +30,14 @@
 	<a href="WesternHigh.php">Western High</a>
 	<a href="WesternMedium.php">Western Medium</a>
 	<a href="WesternLow.php">Western Low</a>
-	</div>
-	</li>
-	</ul>
 		
   </div>
 
 	<div class="main">
-    
+      <h3> <?php session_start();
+  echo "welcome ";
+  echo $_SESSION['Name'];
+?> </h3>
 	    <h2>Western Medium</h2>
 		<div class="">
 			
@@ -116,7 +117,7 @@
 						animationEnabled: true,
 						theme: "light2",
 						title:{
-							text: "Prices of Uva High"
+							text: "Prices of Western_Medium"
 						},
 						axisY:{
 							includeZero: false

@@ -34,13 +34,20 @@ if ($NoRecords <1)
 		{
 			$_SESSION['Email'] =$email;
 			$_SESSION['Name'] =$row['fname'] . "  " . $row['lname'];
+			
+			$query = "INSERT INTO userlog (email, logintime) VALUES ('$email',NOW())";
+
+
+			$result = mysqli_query($connection , $query);
+			
 			header("Location: HomeLogin.php?Login=loginsuccess");
+			
 			exit();
 		}
 
 		else
 		{
-			header("Location: HomePage.php?Login=loginerror");
+			header("Location: Login.php?Login=loginerror");
 			exit();
 		}
 	}

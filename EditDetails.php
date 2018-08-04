@@ -14,19 +14,40 @@
 <div style="overflow:auto">
   <div class="menu">
 
+     
     <a href="HomeLogin.php">Home</a>
-	<a href="ViewDetail.php">View Profile Details</a>
-	<a href="">View System assign Details</a>
+	<a href="ViewDetail.php">Profile</a>
 	<a href="Prediction.php">Prediction</a>
-	<a href="">Logout</a>
+	<a href="PredictionDetails.php">Prediction Log</a> 
+	<a href="ViewLoginDetails.php">Login Log</a> 
+	<a href="logout.php">Logout</a>
+	<ul>
+	<a class ="yy" href="">Price History</a>
+	<li>
+	<div class="xx">
+	<a href="UvaHigh.php">Uva High</a>
+	<a href="UvaMedium.php">Uva Medium</a>
+	<a href="UvaLow.php">Uva Low</a>
+	<a href="WesternHigh.php">Western High</a>
+	<a href="WesternMedium.php">Western Medium</a>
+	<a href="WesternLow.php">Western Low</a>
+	</div>
+	</li>
+	</ul>
   </div>
 
   <div class="main">
+  <h3> <?php session_start();
+  echo "welcome ";
+  echo $_SESSION['Name'];
+  echo"</br>";
+  echo $_SESSION['Email'];?> </h3>
+  
   <h2>Edit Profile Details</h2>
 	<div class="container">
     <form action="Edit.php" method="post">
 	<div class="errorMessage"><?php if (isset($_GET["val"])){echo "*Login failed. Check your credentials and try again"; }?> </div>
-     <div class="row">
+    <div class="row">
       <div class="col-25">
         <label for="email">E-mail</label>
       </div>
@@ -39,7 +60,7 @@
         <label for="fname">First Name</label>
       </div>
       <div class="col-75">
-        <input type="text" id="fname" name="fname" placeholder="Enter the your First Name" pattern="[A-Za-z]"  required>
+        <input type="text" id="fname" name="fname" placeholder="Enter the your First Name"   required>
       </div>
     </div>
 	  <div class="row">
@@ -47,7 +68,7 @@
         <label for="lname">Last Name</label>
       </div>
       <div class="col-75">
-        <input type="text" id="lname" name="lname" placeholder="Enter the your Last Name" pattern="[A-Za-z]" required>
+        <input type="text" id="lname" name="lname" placeholder="Enter the your Last Name"  required>
       </div>
     </div>
 	  <div class="row">
@@ -63,7 +84,7 @@
         <label for="city">City</label>
       </div>
       <div class="col-75">
-        <input type="text" id="city" name="city" placeholder="Enter the Resident City" pattern="[A-Za-z]" required>
+        <input type="text" id="city" name="city" placeholder="Enter the Resident City"  required>
       </div>
     </div>
 	 <div class="row">
