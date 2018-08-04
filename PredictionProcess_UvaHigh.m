@@ -23,6 +23,7 @@ else
     PlantLevel=lower(plant_level);
     Place=lower(place);
     TableName=strcat(Place,'_',PlantLevel);
+    disp(TableName);
     selectquery=['Select * from '  TableName];
     
     curs1=exec(dbConn,selectquery);
@@ -42,6 +43,7 @@ else
 
     %view the network
     view(net);
+    disp(temprature);
     X=[temprature; rainfall; humility; usd; fuel];
     %put the input
     recommendation=net(X);

@@ -1,0 +1,122 @@
+function [recommendation]=PredictionProcess()
+try
+    %plant_level, place, temprature, rainfall, humility, usd, fuel
+    %DB Service Port, Username, Password
+    host = 'localhost';
+    hostusername = 'root';
+    hostpassword = '';
+    databasename = 'factors';%Database Name
+
+    %JDBC Parameters
+    jdbcString = sprintf('jdbc:mysql://%s/%s', host, databasename);
+    jdbcDriver = 'com.mysql.jdbc.Driver'; %JDBC driver
+
+    %Now making DB connection Object
+    dbConn = database(databasename, hostusername, hostpassword, jdbcDriver, jdbcString);
+ 
+    %checking Connection Status
+    dbStatus = isopen(dbConn);
+    if (dbStatus==0)
+        msg = sprintf('Failed To Establish Connection.\nReason: %s', dbConn.Message);
+        msgbox(msg);
+        return
+    else 
+   
+        %Get the prediction request data from the log table where the price is
+        %not set
+        selectquery_factors='Select * from log WHERE price="0"';
+   
+        curs_factors=exec(dbConn,selectquery_factors);
+        curs_factors1=fetch(curs_factors);
+        factors1=curs_factors.Data; %receive the data from the database (cell)
+    
+        numrows = rows(curs_factors);%get the number of rows
+    
+        %loop to perform prediction for each row (n,n-1,n-2)
+        for v = numrows:-1.0:1.0
+                
+            id=factors1(v,1) %get the Id (primary key) -> used to update the price
+            plant_level=string(factors1(v,4)); %convert the plantlevel to string datatype
+            place=string(factors1(v,5));%convert the place to string datatype
+            %cannot convert from cell to double. cell -> string ->double
+            temprature=str2double(string(factors1(v,6))); %convert the temperature to double datatype
+            rainfall=str2double(string(factors1(v,7))); %convert the rainfall to double datatype
+            humility=str2double(string(factors1(v,8)));%convert the humility to double datatype
+            usd=str2double(string(factors1(v,9))); %convert the usd to double datatype
+            fuel=str2double(string(factors1(v,10)));%convert the fuel to double datatype
+       
+
+            PlantLevel=lower(plant_level);%convert to lowercase
+            Place=lower(place);%convert to lowercase
+            %double checking the input
+            if(Place=='uva')
+                Places='uva';
+            elseif(Place=='western')
+                Places='Western';
+            end
+            %double checking the input
+            if(PlantLevel=='high')
+                PlantLevels='high';
+            elseif(PlantLevel=='medium')
+                PlantLevels='medium';
+            elseif(PlantLevel=='low')
+                PlantLevels='low';
+            end
+        
+            TableName=strcat(Places,'_',PlantLevels);%creating the tablename (dynamic)
+    
+            selectquery_factors=['Select * from ' TableName ];%SQLquery will work for different tablename
+  
+            curs_factors=exec(dbConn,selectquery_factors);
+            curs_factors1=fetch(curs_factors);
+            factors=curs_factors.Data; %data is stored into the variable
+    
+            allData=transpose(factors);%convert column to row and row to column
+   
+            targets=str2double(allData(6,:)); %convert string to double data for targets -> Price
+  
+            inputs=str2double(allData(1:5,:));%convert string to double data for inputs
+                           
+            %create feedforward neural network
+            net=feedforwardnet(10);%initial dum net or empty net
+
+            %train the neural network with the training inputs and targets
+            net=train(net,inputs,targets);%intelligent net
+
+            %view the network
+            view(net);
+        
+            X=[temprature; rainfall; humility; usd; fuel]; %input actors to predict the price 
+    
+            %put the input
+            recommendation=net(X);%output is the predicted price 
+    
+            disp('Prediction Output:');
+            disp(recommendation);
+        
+            %check neural network performance
+            performance=perform(net,recommendation,targets);
+  
+        
+            yy=num2str(id{1});%cell-> num-> string
+   
+            tn='log';%tablename
+            colnames={'Price'};%column name
+            data={recommendation};%value of the column
+   
+            z=['WHERE Id=' yy']; %where condition
+   
+            update(dbConn,tn,colnames,data,z);%Query to update the price
+            disp(getwb(net)); %view the weights used for the nodes in feedforward neural networks
+    
+        end   
+    end
+catch Me
+    fid=fopen('logFile','a+');
+    fprintf(fid,'%s\n',Me.message);
+    %for e=1:length(err.stack)
+       %fprintf(fid,'%s',err.getReport('extended','hyperlinks','off')); 
+    %end
+    fclose(fid);
+end  
+end
